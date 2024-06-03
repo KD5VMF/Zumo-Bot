@@ -1,8 +1,5 @@
-# Zumo-Bot
+Here is the complete README.md content without the copy box:
 
-Sure, here is the complete README.md:
-
-```markdown
 # Zumo Robot Autonomous Navigation
 
 This project implements an autonomous navigation system for the Zumo Robot using the Zumo Shield. The robot is designed to navigate around obstacles by detecting collisions and executing random turn patterns to avoid them. The code also includes adjustments to balance the motor speeds to ensure the robot drives straight.
@@ -58,7 +55,6 @@ The main components of the code include:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-```
 MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -78,7 +74,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
 
 ## Contributing
 
@@ -92,6 +87,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Contact
 
 For any inquiries, please contact [Your Name] at [your email].
-```
-
-Feel free to replace `[Your Name]` and `[your email]` with your actual details. The README provides an overview of the project, installation instructions, usage, code overview, license information, and contact details.
