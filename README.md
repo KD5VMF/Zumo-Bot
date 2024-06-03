@@ -1,5 +1,3 @@
-Here is the complete README.md content without the copy box:
-
 # Zumo Robot Autonomous Navigation
 
 This project implements an autonomous navigation system for the Zumo Robot using the Zumo Shield. The robot is designed to navigate around obstacles by detecting collisions and executing random turn patterns to avoid them. The code also includes adjustments to balance the motor speeds to ensure the robot drives straight.
