@@ -1,5 +1,5 @@
 ```markdown
-# 🤖✨ Zumo Shield Smart Bots (Arduino) — *Zumo 2025* vs *Accel Charge*
+# 🤖✨ Zumo Shield Smart Bots (Arduino) — *Zumo 2025* vs *Zumo_Drive_hit_detect*
 ```
 ```
       ____                      ____  __      _      ____
@@ -20,7 +20,7 @@ They share the same spirit (small robot, big attitude), but they target **differ
 - **`Zumo 2025.ino`** → *Arena survival brain*  
   Edge avoidance + wandering + optional IMU heading hold + bump reaction.
 
-- **`Accel Charge` (your provided sketch)** → *Collision charger*  
+- **`Zumo_Drive_hit_detect.ino`** → *Collision charger*  
   Uses accelerometer “contact” detection to trigger full-speed charge + randomized turn patterns.
 
 ---
@@ -51,7 +51,7 @@ Or install from ZIP from the Pololu repo if you prefer.
 ## 2) Open the sketch you want
 
 - `Zumo 2025.ino`  ✅ recommended for ring/table survival  
-- your “Accel Charge” sketch (the one you pasted) ✅ fun/aggressive collision behavior
+- `Zumo_Drive_hit_detect.ino` ✅ fun/aggressive collision behavior
 
 ## 3) Select board + port and upload
 
@@ -96,7 +96,7 @@ Because it can **survive longer**:
 
 ---
 
-## ⚡ Accel Charge — Accelerometer Contact Charger (your provided sketch)
+## ⚡ `Zumo_Drive_hit_detect.ino` — Accelerometer Contact Charger (your provided sketch)
 
 ### What it’s built to do
 This sketch is a **contact-driven brawler**.
@@ -128,7 +128,7 @@ This sketch is a **contact-driven brawler**.
 
 # Side-by-Side Comparison
 
-| Feature | `Zumo 2025.ino` | Accel Charge |
+| Feature | `Zumo 2025.ino` | `Zumo_Drive_hit_detect.ino` |
 |---|---:|---:|
 | Reflectance sensors | ✅ used for edge/border detection | ❌ not used |
 | Ring survival priority | ✅ **high** | ❌ **low** |
@@ -181,7 +181,7 @@ The robot will spin to capture min/max magnetometer values for heading.
 
 ---
 
-## Accel Charge key knobs
+## `Zumo_Drive_hit_detect.ino` key knobs
 
 ### `XY_ACCELERATION_THRESHOLD`
 - More sensitive contact detection → **lower**
@@ -198,13 +198,10 @@ The robot will spin to capture min/max magnetometer values for heading.
 ```
 .
 ├── Zumo 2025.ino
-├── (Accel Charge sketch).ino
+├── Zumo_Drive_hit_detect.ino
 ├── LICENSE
 └── README.md
 ```
-
-> If you rename the Accel Charge file to something nice like
-> `Zumo_Accel_Charge.ino`, it’ll look great in the repo.
 
 ---
 
@@ -221,7 +218,7 @@ MIT License (see `LICENSE`)
 
 - This repo includes:
   - `Zumo 2025.ino` (edge-avoid / wander / IMU assist)
-  - Accel Charge program (accelerometer contact charger with turn patterns)
+  - `Zumo_Drive_hit_detect.ino` (accelerometer contact charger with turn patterns)
 
 ---
 
