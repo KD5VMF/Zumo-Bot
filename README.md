@@ -96,7 +96,7 @@ Because it can **survive longer**:
 
 ---
 
-## ⚡ `Zumo_Drive_hit_detect.ino` — Accelerometer Contact Charger (your provided sketch)
+## ⚡ `Zumo_Drive_hit_detect.ino` — Accelerometer Contact Charger.
 
 ### What it’s built to do
 This sketch is a **contact-driven brawler**.
