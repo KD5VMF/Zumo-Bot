@@ -1,87 +1,235 @@
-# Zumo Robot Autonomous Navigation
+```markdown
+# 🤖✨ Zumo Shield Smart Bots (Arduino) — *Zumo 2025* vs *Accel Charge*
+```
+```
+      ____                      ____  __      _      ____
+     /_  /_  __  __ _ __ ___   / __ \/ /___  (_)__  / __ )____  __
+      / / / / / /  ' // _  /  / /_/ / / __ \/ / _ \/ __  / __ \/ /
+     / /_/ /_/ / / / // / /  / ____/ / /_/ / /  __/ /_/ / /_/ / /
+    /___/\__,_/_/ /_//_/ /_/ /_/   /_/\____/_/\___/_____/\____/_/
 
-This project implements an autonomous navigation system for the Zumo Robot using the Zumo Shield. The robot is designed to navigate around obstacles by detecting collisions and executing random turn patterns to avoid them. The code also includes adjustments to balance the motor speeds to ensure the robot drives straight.
+                 Z U M O   S H I E L D   ( U N O / L E O )
+```
 
-## Features
+# Overview
 
-- **Collision Detection**: Uses the onboard accelerometer to detect collisions with obstacles.
-- **Random Turn Patterns**: Executes one of twenty random turn patterns upon detecting a collision.
-- **Motor Balancing**: Adjusts motor speeds to correct for drift and ensure straight driving.
-- **Sound Effects**: Plays a sound effect upon collision detection.
+This repo contains **two different autonomous control programs** for the **Pololu Zumo Shield for Arduino**.
 
-## Getting Started
+They share the same spirit (small robot, big attitude), but they target **different priorities**:
 
-### Prerequisites
+- **`Zumo 2025.ino`** → *Arena survival brain*  
+  Edge avoidance + wandering + optional IMU heading hold + bump reaction.
 
-- Arduino IDE
-- Zumo Robot with Zumo Shield
-- USB cable for connecting the Zumo Robot to your computer
+- **`Accel Charge` (your provided sketch)** → *Collision charger*  
+  Uses accelerometer “contact” detection to trigger full-speed charge + randomized turn patterns.
 
-### Installation
+---
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/yourusername/zumo-robot-navigation.git
-   ```
+## ✅ Hardware Target
 
-2. **Open the Arduino IDE**:
-   - Open the Arduino IDE and navigate to `File` > `Open...`.
-   - Select the `zumo-robot-navigation.ino` file from the cloned repository.
+- **Pololu Zumo Shield for Arduino** (Arduino Uno / Leonardo)
+- Optional but recommended:
+  - **Reflectance sensor array** (for edge detection / border detection)
+  - **IMU** (accelerometer + magnetometer; gyro on some revisions)
 
-3. **Select the Board and Port**:
-   - Go to `Tools` > `Board` and select `Arduino/Genuino Uno`.
-   - Go to `Tools` > `Port` and select the correct port for your Arduino.
+> ⚠️ Not the same as the **Zumo 32U4 robot**. That uses different libraries/headers.
 
-4. **Upload the Code**:
-   - Click the `Upload` button to upload the code to your Zumo Robot.
+---
 
-### Usage
+# Quick Start
 
-Once the code is uploaded, the Zumo Robot will start navigating autonomously without waiting for a button press. It will move forward, detect collisions, and execute random turn patterns to avoid obstacles.
+## 1) Install the Pololu library
 
-## Code Overview
+Install the **ZumoShield** library (Pololu):
 
-The main components of the code include:
+- Arduino IDE → **Sketch → Include Library → Manage Libraries…**
+- Search **ZumoShield**
+- Install **ZumoShield by Pololu**
 
-- **Accelerometer Settings**: Configures the accelerometer for collision detection.
-- **Motor Settings**: Configures the motor speeds and includes adjustments for motor balancing.
-- **Collision Detection**: Checks for collisions using the accelerometer and responds by executing random turn patterns.
-- **Random Turn Patterns**: Defines twenty different turn patterns that the robot can execute upon collision detection.
-- **Motor Balancing**: Adjusts the motor speeds to correct for drift and ensure straight driving.
+Or install from ZIP from the Pololu repo if you prefer.
 
-## License
+## 2) Open the sketch you want
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+- `Zumo 2025.ino`  ✅ recommended for ring/table survival  
+- your “Accel Charge” sketch (the one you pasted) ✅ fun/aggressive collision behavior
 
-MIT License
+## 3) Select board + port and upload
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+- Tools → Board → (Uno / Leonardo)
+- Tools → Port → (your COM port)
+- Upload
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+# Programs
 
-## Contributing
+---
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## 🧠 `Zumo 2025.ino` — Smart Sumo / Edge Avoider (NO line following)
 
-## Acknowledgements
+### What it’s built to do
+This sketch treats **not falling off the world** as the top priority.
 
-- [Arduino](https://www.arduino.cc/)
-- [Zumo Shield](https://www.pololu.com/category/169/zumo-robot)
+**Core features**
+- **Edge detection** using reflectance array  
+  If it sees a bright border/edge → **backup + turn**.
+- **Wander behavior**  
+  Drives forward and explores, periodically changing direction.
+- **IMU bump reaction** (accelerometer “jerk”)  
+  If hit → brief “attack burst” forward.
+- **IMU heading hold** (magnetometer compass) *(if IMU is present)*  
+  Keeps the robot driving straighter and more repeatably.
+- **Button UI**
+  - Short press: cycle modes
+  - Long press: STOP / RUN
+- **Buzzer feedback** for mode changes and events.
 
-## Contact
+### When to use it
+- Black sumo ring with white border
+- Table edge avoidance (bright tape edge)
+- “Roam but don’t fall” robots
 
-For any inquiries, please contact [Your Name] at [your email].
+### Why it wins more often (in ring-style environments)
+Because it can **survive longer**:
+- It actively avoids edges
+- It does not rely on random luck to stay on the surface
+
+---
+
+## ⚡ Accel Charge — Accelerometer Contact Charger (your provided sketch)
+
+### What it’s built to do
+This sketch is a **contact-driven brawler**.
+
+**Core features**
+- Reads accelerometer X/Y and detects **sudden force/jerk**
+- On “contact”, it:
+  - plays a **charge melody**
+  - switches to **FULL_SPEED**
+  - runs one of **20 random turn patterns**
+- Motor trim constants help it drive straighter.
+
+### Strengths
+- Very punchy, very aggressive
+- Great for:
+  - “ram anything you hit” behavior
+  - small obstacle courses where you *want* chaotic unpredictability
+
+### Weaknesses (important)
+- **No edge/border detection**, so on a sumo ring it can:
+  - charge hard
+  - and then drive right off the edge
+- Accelerometer “contact” can false-trigger from:
+  - bumpy surfaces
+  - acceleration from turns
+  - vibration
+
+---
+
+# Side-by-Side Comparison
+
+| Feature | `Zumo 2025.ino` | Accel Charge |
+|---|---:|---:|
+| Reflectance sensors | ✅ used for edge/border detection | ❌ not used |
+| Ring survival priority | ✅ **high** | ❌ **low** |
+| Bump/impact reaction | ✅ yes (jerk → short burst) | ✅ yes (jerk → full charge) |
+| Magnetometer/compass | ✅ heading hold (if IMU present) | ❌ not used |
+| Turn strategy | simple, reliable escape turns | many random time-based turn patterns |
+| Best use | sumo ring / table / “don’t fall” | chaotic charger / collision toy |
+| Biggest risk | tuning thresholds | driving off the ring |
+
+---
+
+# Controls (Zumo 2025)
+
+- **Short press**: cycles modes  
+  `AUTO → RING_ONLY → WANDER_ONLY → AUTO`
+- **Long press**: toggles  
+  `STOP ↔ RUN`
+
+---
+
+# Calibration Notes (Zumo 2025)
+
+### Reflectance calibration
+During startup calibration, try to let the robot “see”:
+- the darker surface
+- the bright border/edge
+
+This makes edge detection far more reliable.
+
+### Compass calibration (if IMU exists)
+The robot will spin to capture min/max magnetometer values for heading.
+
+---
+
+# Tuning Guide
+
+## `Zumo 2025.ino` key knobs
+
+### `EDGE_BRIGHT_THRESHOLD`
+- If it escapes too often → **increase**
+- If it misses the edge and falls off → **decrease**
+
+### `BUMP_JERK_THRESHOLD`
+- False bumps → **increase**
+- Never detects bumps → **decrease**
+
+### `BASE_SPEED`
+- Too wild/slippy → **lower**
+- Too slow to be useful → **raise**
+
+---
+
+## Accel Charge key knobs
+
+### `XY_ACCELERATION_THRESHOLD`
+- More sensitive contact detection → **lower**
+- Fewer false triggers → **higher**
+
+### Turn durations
+- If it barely turns → increase durations
+- If it over-rotates → reduce durations
+
+---
+
+# File Layout (expected)
+
+```
+.
+├── Zumo 2025.ino
+├── (Accel Charge sketch).ino
+├── LICENSE
+└── README.md
+```
+
+> If you rename the Accel Charge file to something nice like
+> `Zumo_Accel_Charge.ino`, it’ll look great in the repo.
+
+---
+
+# License
+
+MIT License (see `LICENSE`)
+
+---
+
+# Credits
+
+- Pololu Zumo Shield Arduino library:
+  - https://github.com/pololu/zumo-shield-arduino-library
+
+- This repo includes:
+  - `Zumo 2025.ino` (edge-avoid / wander / IMU assist)
+  - Accel Charge program (accelerometer contact charger with turn patterns)
+
+---
+
+# Roadmap Ideas (optional fun)
+
+- Merge both into a **hybrid “Ring Safe Charger”**:
+  - keep edge detection as #1 priority
+  - keep charge melody + full-speed burst on confirmed contact
+  - reduce to the 5 best turn patterns
+  - add optional “search spin” when no opponent is hit for X seconds
+```
